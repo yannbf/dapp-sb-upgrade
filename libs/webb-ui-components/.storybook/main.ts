@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/nextjs';
+import type { StorybookConfig } from "@storybook/experimental-nextjs-vite";
 import path, { dirname, join } from 'node:path';
 
 // These options were migrated by @nx/storybook:convert-to-inferred from the project.json file.
@@ -32,55 +32,56 @@ export default {
     getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath('@storybook/addon-themes'),
     '@nx/react/plugins/storybook',
+    getAbsolutePath('@storybook/experimental-addon-test'),
   ],
-  webpackFinal: async (config) => {
-    config.module?.rules?.push({
-      test: /\.css$/,
-      use: [
-        {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: [require('tailwindcss'), require('autoprefixer')],
-            },
-          },
-        },
-      ],
-      include: path.resolve(__dirname, '../'),
-    });
+  // webpackFinal: async (config) => {
+  //   config.module?.rules?.push({
+  //     test: /\.css$/,
+  //     use: [
+  //       {
+  //         loader: 'postcss-loader',
+  //         options: {
+  //           postcssOptions: {
+  //             plugins: [require('tailwindcss'), require('autoprefixer')],
+  //           },
+  //         },
+  //       },
+  //     ],
+  //     include: path.resolve(__dirname, '../'),
+  //   });
 
-    config.module?.rules?.forEach((rule) => {
-      if (typeof rule !== 'object' || rule === null) {
-        return;
-      }
+  //   config.module?.rules?.forEach((rule) => {
+  //     if (typeof rule !== 'object' || rule === null) {
+  //       return;
+  //     }
 
-      if (!(rule.test instanceof RegExp)) {
-        return;
-      }
+  //     if (!(rule.test instanceof RegExp)) {
+  //       return;
+  //     }
 
-      if (!rule.test.test('.svg')) {
-        return;
-      }
+  //     if (!rule.test.test('.svg')) {
+  //       return;
+  //     }
 
-      rule.exclude = /\.svg$/;
-    });
+  //     rule.exclude = /\.svg$/;
+  //   });
 
-    config.module?.rules?.push(
-      {
-        test: /\.svg$/i,
-        type: 'asset',
-        resourceQuery: /url/, // *.svg?url
-      },
-      {
-        test: /\.svg$/i,
-        resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
-        use: ['@svgr/webpack'],
-      },
-    );
+  //   config.module?.rules?.push(
+  //     {
+  //       test: /\.svg$/i,
+  //       type: 'asset',
+  //       resourceQuery: /url/, // *.svg?url
+  //     },
+  //     {
+  //       test: /\.svg$/i,
+  //       resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
+  //       use: ['@svgr/webpack'],
+  //     },
+  //   );
 
-    return config;
-  },
-  framework: '@storybook/nextjs',
+  //   return config;
+  // },
+  framework: "@storybook/experimental-nextjs-vite",
   swc: () => ({
     jsc: {
       transform: {

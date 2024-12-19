@@ -11,7 +11,7 @@ import wasm from 'vite-plugin-wasm';
 
 const dirname_ = dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig(() => ({
+export default defineConfig({
   root: dirname_,
   cacheDir: '../../node_modules/.vite/libs/webb-ui-components',
 
@@ -77,4 +77,4 @@ export default defineConfig(() => ({
     },
     passWithNoTests: true,
   },
-}));
+});
